@@ -4,7 +4,7 @@
  * SlackSend
  *
  * @Author  TakashiKakizoe
- * @Version 1.0.0
+ * @Version 1.0.1
  *
  * ex.
  * $slack = SlackSend::getSingleton();
@@ -114,10 +114,10 @@ class SlackSend
     return $response === 'ok';
   }
 
-  public static function getSingleton()
+  public static function getSingleton($url=null)
   {
     if (!self::$instance){
-      self::$instance = new self;
+      self::$instance = new self($url);
     }
     return self::$instance;
   }
