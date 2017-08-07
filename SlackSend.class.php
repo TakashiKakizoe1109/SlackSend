@@ -4,10 +4,10 @@
  * SlackSend
  *
  * @Author  TakashiKakizoe
- * @Version 1.0.1
+ * @Version 1.0.2
  *
  * ex.
- * $slack = SlackSend::getSingleton();
+ * $slack = SlackSend::getSingleton('https://hooks.slack.com/services/YOURKEY/YOURKEY/YOURKEY');
  * $slack
  * ->set('pretext','Pretext')
  * ->set('title','Title')
@@ -52,15 +52,19 @@ class SlackSend
     if($key==='' || $val==='' || !isset($this->{$key}) ){
       throw new Exception('Invalid argument');
     }
-    $flg = false ;
-    foreach ($this->attachments as $i => $attachment) {
-      if(!isset($attachment[$key])){
-        $this->attachments[$i][$key] = $val ;
-        $flg = true ;
+    if ( $key!=='username' ) {
+      $flg = false ;
+      foreach ($this->attachments as $i => $attachment) {
+        if(!isset($attachment[$key])){
+          $this->attachments[$i][$key] = $val ;
+          $flg = true ;
+        }
       }
-    }
-    if(!$flg){
-      $this->attachments[][$key] = $val ;
+      if(!$flg){
+        $this->attachments[][$key] = $val ;
+      }
+    } else {
+      $this->username = $val ;
     }
     return $this ;
   }
