@@ -4,7 +4,7 @@
  * SlackSend
  *
  * @Author  TakashiKakizoe
- * @Version 1.1.0
+ * @Version 1.2.0
  *
  * ex.
  * $slack = SlackSend::getSingleton('https://hooks.slack.com/services/YOURKEY/YOURKEY/YOURKEY');
@@ -19,7 +19,7 @@
 **/
 class SlackSend
 {
-  private static $instance ;
+  private static $instances = array();
   private $slackUrl = 'https://hooks.slack.com/services/YOURKEY/YOURKEY/YOURKEY';
   private $options  = array();
 
@@ -149,10 +149,11 @@ class SlackSend
   }
   public static function getSingleton($url=null)
   {
-    if (!self::$instance){
-      self::$instance = new self($url);
+    $set = $url === null ? 0 : md5($url) ;
+    if (!self::$instances[$set]){
+      self::$instances[$set] = new self($url);
     }
-    return self::$instance;
+    return self::$instances[$set];
   }
   public function __toString()
   {
