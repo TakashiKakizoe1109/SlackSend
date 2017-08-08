@@ -4,7 +4,7 @@
  * SlackSend
  *
  * @Author  TakashiKakizoe
- * @Version 1.2.0
+ * @Version 1.3.0
  *
  * ex.
  * $slack = SlackSend::getSingleton('https://hooks.slack.com/services/YOURKEY/YOURKEY/YOURKEY');
@@ -23,17 +23,18 @@ class SlackSend
   private $slackUrl = 'https://hooks.slack.com/services/YOURKEY/YOURKEY/YOURKEY';
   private $options  = array();
 
-  private $fallback   = 'fallback' ;
+  private $fallback   = 'Notification' ;
   private $username   = 'Bot' ;
   private $icon_emoji = ':slack:' ;
 
-  private $color       = '#3AA3E3'  ;
-  private $pretext     = 'pretext'  ;
-  private $title       = 'title'    ;
-  private $title_link  = 'titleLink';
+  private $color       = '#3AA3E3'   ;
+  private $pretext     = 'pretext'   ;
+  private $title       = 'title'     ;
+  private $title_link  = 'titleLink' ;
   private $text        = 'text' ;
   private $field       = array() ;
   private $image_url   = '' ;
+  private $thumb_url   = '' ;
   private $author_name = '' ;
   private $author_link = '' ;
   private $author_icon = '' ;
@@ -61,28 +62,29 @@ class SlackSend
     } elseif ( $key==='icon_emoji' ) {
       $this->icon_emoji = $val ;
     } else {
-      $flg = false ;
-      foreach ($this->attachments as $i => $attachment) {
-        if(!isset($attachment[$key])){
-          $this->attachments[$i][$key] = $val ;
-          $flg = true ;
-        }
-      }
-      if(!$flg){
-        $this->attachments[][$key] = $val ;
+      $i = $this->getIndex();
+      if( !isset($this->attachments[$i][$key]) ){
+        $this->attachments[$i][$key] = $val ;
+      }else{
+        $this->attachments[$i+1][$key] = $val ;
       }
     }
     return $this ;
   }
   public function setFields($title,$text,$short=false){
-    $i = count($this->attachments) - 1 ;
-    $i = $i < 0 ? 0 : $i ;
+    $i = $this->getIndex();
     $this->attachments[$i]['fields'][] = array(
-      "title"=>$title,
-      "value"=>$text,
-      "short"=>$short
+      "title" => $title ,
+      "value" => $text  ,
+      "short" => $short
     );
     return $this ;
+  }
+  private function getIndex()
+  {
+    $index = count($this->attachments) - 1 ;
+    $index = $index < 0 ? 0 : $index ;
+    return $index ;
   }
   public function sendMessage()
   {
@@ -115,6 +117,9 @@ class SlackSend
       );
       if ( isset($attachment['image_url']) ) {
         $setArray['image_url'] = $attachment['image_url'] ;
+      }
+      if ( isset($attachment['thumb_url']) ) {
+        $setArray['thumb_url'] = $attachment['thumb_url'] ;
       }
       if ( isset($attachment['author_name']) ) {
         $setArray['author_name'] = $attachment['author_name'] ;
