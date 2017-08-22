@@ -4,7 +4,7 @@
  * SlackSend
  *
  * @author  TakashiKakizoe
- * @version 1.3.1
+ * @version 1.3.2
  *
 **/
 class SlackSend
@@ -22,6 +22,7 @@ class SlackSend
   private $title       = 'title'     ;
   private $title_link  = 'titleLink' ;
   private $text        = 'text' ;
+  private $ts          = '' ;
   private $field       = array() ;
   private $image_url   = '' ;
   private $thumb_url   = '' ;
@@ -83,7 +84,7 @@ class SlackSend
       'icon_emoji' => $this->icon_emoji ,
       'attachments' => array()
     );
-    if(!empty($this->attachment)){
+    if(!empty($this->attachments)){
       foreach ($this->attachments as $key => $attachment) {
         // params
         $fallback    = isset($attachment['fallback']) ? $attachment['fallback'] :$this->fallback ;
@@ -93,9 +94,11 @@ class SlackSend
         $setArray = array(
           'fallback'=> $fallback,
           'color'=> $color,
-          'text'=> $text,
-          "ts"=> time()
+          'text'=> $text
         );
+        if ( isset($attachment['ts']) ) {
+          $setArray['ts']     = $attachment['ts'] ;
+        }
         if ( isset($attachment['title']) ) {
           $setArray['title']     = $attachment['title'] ;
         }
@@ -138,8 +141,7 @@ class SlackSend
       $setArray = array(
         'fallback'=> $fallback,
         'color'=> $color,
-        'text'=> $text,
-        "ts"=> time()
+        'text'=> $text
       );
       $this->message['attachments'][] = $setArray ;
     }
