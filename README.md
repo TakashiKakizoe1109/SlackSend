@@ -66,6 +66,16 @@ Usage
 boolean === false Short text  
 boolean === true  Long text  
 
+`->sendMessage()`  
+Send a message to Slack  
+
+`->getMessage()`  
+Get the message in the form of an array, you can use it in outgoing webhooks etc.  
+
+`->sendMessageMain()`  
+Substitute an array and send a message.  
+
+
 Examples
 ===========
 

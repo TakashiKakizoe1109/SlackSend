@@ -4,7 +4,7 @@
  * SlackSend
  *
  * @author  TakashiKakizoe
- * @version 1.3.4
+ * @version 1.4.0
  *
 **/
 class SlackSend
@@ -43,6 +43,29 @@ class SlackSend
         'header' => 'Content-Type: application/json'
       )
     );
+  }
+  private function reset()
+  {
+    $this->fallback   = 'Notification' ;
+    $this->username   = 'Bot' ;
+    $this->icon_emoji = ':slack:' ;
+    $this->channel    = '' ;
+
+    $this->color       = '#3AA3E3'   ;
+    $this->pretext     = 'pretext'   ;
+    $this->title       = 'title'     ;
+    $this->title_link  = 'titleLink' ;
+    $this->text        = 'text' ;
+    $this->ts          = '' ;
+    $this->field       = array() ;
+    $this->image_url   = '' ;
+    $this->thumb_url   = '' ;
+    $this->author_name = '' ;
+    $this->author_link = '' ;
+    $this->author_icon = '' ;
+    $this->footer      = 'footer' ;
+    $this->footer_icon = 'https://platform.slack-edge.com/img/default_application_icon.png' ;
+    $this->attachments = array() ;
   }
   public function set($key='',$val='')
   {
@@ -88,6 +111,23 @@ class SlackSend
     return $index ;
   }
   public function sendMessage()
+  {
+    $this->makeMessage();
+    return $this->sendMessageMain() ;
+  }
+  public function getMessage($flg=true)
+  {
+    $this->makeMessage();
+    $return = '' ;
+    if ($flg) {
+      $return = json_encode($this->message);
+    } else {
+      $return = $this->message;
+    }
+    $this->reset();
+    return $return ;
+  }
+  private function makeMessage()
   {
     $this->message = array(
       'username' => $this->username ,
@@ -159,7 +199,6 @@ class SlackSend
       );
       $this->message['attachments'][] = $setArray ;
     }
-    return $this->sendMessageMain() ;
   }
   private function setMessage($message=null)
   {
@@ -173,6 +212,7 @@ class SlackSend
   {
     $this->setMessage($message);
     $response = file_get_contents($this->slackUrl, false, stream_context_create($this->options));
+    $this->reset();
     return $response === 'ok';
   }
   public static function getSingleton($url=null)
