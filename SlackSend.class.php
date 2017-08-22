@@ -4,7 +4,7 @@
  * SlackSend
  *
  * @author  TakashiKakizoe
- * @version 1.3.3
+ * @version 1.3.4
  *
 **/
 class SlackSend
@@ -16,6 +16,7 @@ class SlackSend
   private $fallback   = 'Notification' ;
   private $username   = 'Bot' ;
   private $icon_emoji = ':slack:' ;
+  private $channel    = '' ;
 
   private $color       = '#3AA3E3'   ;
   private $pretext     = 'pretext'   ;
@@ -52,6 +53,8 @@ class SlackSend
       $this->username   = $val ;
     } elseif ( $key==='icon_emoji' ) {
       $this->icon_emoji = $val ;
+    } elseif ( $key==='channel' ) {
+      $this->channel    = $val ;
     } else {
       $i = $this->getIndex();
       if ( $key==='ts' ) {
@@ -91,6 +94,10 @@ class SlackSend
       'icon_emoji' => $this->icon_emoji ,
       'attachments' => array()
     );
+    if(!empty($this->channel)){
+      $this->message['channel'] = $this->channel ;
+      $this->channel = '' ;
+    }
     if(!empty($this->attachments)){
       foreach ($this->attachments as $key => $attachment) {
         // params

@@ -49,6 +49,7 @@ Usage
 | :-----------: | :---------------------------------: | :------------------------------: |
 | fallback      | `"Notification"`                    | Push notification message |
 | username      | `"HappyBOT"`                        | Name of the notifier |
+| channel       | `"#general or @username"`           | Please set channel or user name |
 | color         | `"#CC6633"`                         | Color of the notification |
 | pretext       | `"pretext"`                         | pretext of the notification |
 | title         | `"title"`                           | title of the notification |
