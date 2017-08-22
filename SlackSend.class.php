@@ -3,18 +3,8 @@
  *
  * SlackSend
  *
- * @Author  TakashiKakizoe
- * @Version 1.3.0
- *
- * ex.
- * $slack = SlackSend::getSingleton('https://hooks.slack.com/services/YOURKEY/YOURKEY/YOURKEY');
- * $slack
- * ->set('pretext','Pretext')
- * ->set('title','Title')
- * ->set('text','Text')
- * ->set('footer','footer title')
- * ->set('title_link','https://example.com/')
- * ->sendMessage();
+ * @author  TakashiKakizoe
+ * @version 1.3.1
  *
 **/
 class SlackSend
@@ -93,48 +83,65 @@ class SlackSend
       'icon_emoji' => $this->icon_emoji ,
       'attachments' => array()
     );
-    foreach ($this->attachments as $key => $attachment) {
-      // params
+    if(!empty($this->attachment)){
+      foreach ($this->attachments as $key => $attachment) {
+        // params
+        $fallback    = isset($attachment['fallback']) ? $attachment['fallback'] :$this->fallback ;
+        $color       = isset($attachment['color']) ? $attachment['color'] :$this->color ;
+        $text        = isset($attachment['text']) ? $attachment['text'] :$this->text ;
+
+        $setArray = array(
+          'fallback'=> $fallback,
+          'color'=> $color,
+          'text'=> $text,
+          "ts"=> time()
+        );
+        if ( isset($attachment['title']) ) {
+          $setArray['title']     = $attachment['title'] ;
+        }
+        if ( isset($attachment['title_link']) ) {
+          $setArray['title_link']     = $attachment['title_link'] ;
+        }
+        if ( isset($attachment['pretext']) ) {
+          $setArray['pretext']     = $attachment['pretext'] ;
+        }
+        if ( isset($attachment['footer']) && isset($attachment['footer_icon']) ) {
+          $setArray['footer']      = $attachment['footer'] ;
+          $setArray['footer_icon'] = $attachment['footer_icon'] ;
+        }
+        if ( isset($attachment['image_url']) ) {
+          $setArray['image_url'] = $attachment['image_url'] ;
+        }
+        if ( isset($attachment['thumb_url']) ) {
+          $setArray['thumb_url'] = $attachment['thumb_url'] ;
+        }
+        if ( isset($attachment['author_name']) ) {
+          $setArray['author_name'] = $attachment['author_name'] ;
+          if ( isset($attachment['author_link']) ) {
+            $setArray['author_link'] = $attachment['author_link'] ;
+          }
+          if ( isset($attachment['author_icon']) ) {
+            $setArray['author_icon'] = $attachment['author_icon'] ;
+          }
+        }
+        if ( isset($attachment['fields']) ) {
+          $setArray['fields'] = $attachment['fields'];
+        }
+        $this->message['attachments'][] = $setArray ;
+
+      }
+
+    } else {
       $fallback    = isset($attachment['fallback']) ? $attachment['fallback'] :$this->fallback ;
       $color       = isset($attachment['color']) ? $attachment['color'] :$this->color ;
-      $pretext     = isset($attachment['pretext']) ? $attachment['pretext'] :$this->pretext ;
-      $title       = isset($attachment['title']) ? $attachment['title'] :$this->title ;
-      $title_link  = isset($attachment['title_link']) ? $attachment['title_link'] :$this->title_link ;
       $text        = isset($attachment['text']) ? $attachment['text'] :$this->text ;
-      $footer      = isset($attachment['footer']) ? $attachment['footer'] :$this->footer ;
-      $footer_icon = isset($attachment['footer_icon']) ? $attachment['footer_icon'] :$this->footer_icon ;
-
       $setArray = array(
         'fallback'=> $fallback,
         'color'=> $color,
-        'pretext'=> $pretext,
-        'title'=> $title,
-        'title_link'=> $title_link,
         'text'=> $text,
-        'footer'=> $footer,
-        "footer_icon"=> $footer_icon,
         "ts"=> time()
       );
-      if ( isset($attachment['image_url']) ) {
-        $setArray['image_url'] = $attachment['image_url'] ;
-      }
-      if ( isset($attachment['thumb_url']) ) {
-        $setArray['thumb_url'] = $attachment['thumb_url'] ;
-      }
-      if ( isset($attachment['author_name']) ) {
-        $setArray['author_name'] = $attachment['author_name'] ;
-        if ( isset($attachment['author_link']) ) {
-          $setArray['author_link'] = $attachment['author_link'] ;
-        }
-        if ( isset($attachment['author_icon']) ) {
-          $setArray['author_icon'] = $attachment['author_icon'] ;
-        }
-      }
-      if ( isset($attachment['fields']) ) {
-        $setArray['fields'] = $attachment['fields'];
-      }
       $this->message['attachments'][] = $setArray ;
-
     }
     return $this->sendMessageMain() ;
   }
