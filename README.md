@@ -71,6 +71,8 @@ Examples
 
 ### ・Add title link
 
+![add_title_link](https://raw.githubusercontent.com/TakashiKakizoe1109/SlackSend/imgs/img/001.png)
+
     $slack
       ->set('pretext','Pretext')
       ->set('title','Title')
@@ -79,6 +81,8 @@ Examples
       ->sendMessage();
 
 ### ・Add author
+
+![add_author](https://raw.githubusercontent.com/TakashiKakizoe1109/SlackSend/imgs/img/002.png)
 
     $slack
       ->set('pretext','Pretext')
@@ -91,6 +95,8 @@ Examples
 
 ### ・Set time
 
+![set_time](https://raw.githubusercontent.com/TakashiKakizoe1109/SlackSend/imgs/img/003.png)
+
     $slack
       ->set('pretext','Pretext')
       ->set('title','Title')
@@ -99,6 +105,8 @@ Examples
       ->sendMessage();
 
 ### ・Set name
+
+![set_name](https://raw.githubusercontent.com/TakashiKakizoe1109/SlackSend/imgs/img/004.png)
 
     $slack
       ->set('username','bot')
@@ -118,6 +126,8 @@ Examples
 
 ### ・Set icon
 
+![set_icon](https://raw.githubusercontent.com/TakashiKakizoe1109/SlackSend/imgs/img/006.png)
+
     $slack
       ->set('pretext','Pretext')
       ->set('title','Title')
@@ -129,6 +139,8 @@ Examples
 
 ### ・Set image_url
 
+![set_image_url](https://raw.githubusercontent.com/TakashiKakizoe1109/SlackSend/imgs/img/007.png)
+
     $slack
       ->set('pretext','Pretext')
       ->set('title','Title')
@@ -139,6 +151,8 @@ Examples
 
 ### ・Set thumb_url
 
+![set_thumb_url](https://raw.githubusercontent.com/TakashiKakizoe1109/SlackSend/imgs/img/008.png)
+
     $slack
       ->set('pretext','Pretext')
       ->set('title','Title')
@@ -148,6 +162,8 @@ Examples
       ->sendMessage();
 
 ### ・Set field
+
+![set_field](https://raw.githubusercontent.com/TakashiKakizoe1109/SlackSend/imgs/img/009.png)
 
     $slack
       ->set('pretext','Pretext')
@@ -160,6 +176,8 @@ Examples
       ->sendMessage();
 
 ### ・Multiple message
+
+![multiple_message](https://raw.githubusercontent.com/TakashiKakizoe1109/SlackSend/imgs/img/010.png)
 
     $slack
       ->set('pretext','Pretext1')
