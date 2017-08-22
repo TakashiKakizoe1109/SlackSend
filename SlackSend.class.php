@@ -4,7 +4,7 @@
  * SlackSend
  *
  * @author  TakashiKakizoe
- * @version 1.3.2
+ * @version 1.3.3
  *
 **/
 class SlackSend
@@ -54,6 +54,13 @@ class SlackSend
       $this->icon_emoji = $val ;
     } else {
       $i = $this->getIndex();
+      if ( $key==='ts' ) {
+        if (strtotime(date('Y-m-d H:i:s',$val)) === $val){
+          $val = $val ;
+        } else {
+          $val = strtotime($val) ;
+        }
+      }
       if( !isset($this->attachments[$i][$key]) ){
         $this->attachments[$i][$key] = $val ;
       }else{

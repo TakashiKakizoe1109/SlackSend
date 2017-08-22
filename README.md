@@ -59,6 +59,7 @@ Usage
 | author_name   | `"alfredo"`                         | author name of the notification |
 | author_icon   | `"http://example.com/alfredo.png"`  | Please set the IMG URL |
 | author_link   | `"http://example.com/profile.html"` | Please set the URL |
+| ts            | `time()`                            | Please set the Timestamp |
 
 `->setFields(title,text,boolean)`  
 boolean === false Short text  
@@ -73,8 +74,7 @@ Examples
       ->set('pretext','Pretext')
       ->set('title','Title')
       ->set('text','Text')
-      ->set('title_link','https://example.com/')
-      ->set('footer','footer title')
+      ->set('title_link','https://slack.com')
       ->sendMessage();
 
 ### ・Add author
@@ -85,8 +85,16 @@ Examples
       ->set('text','Text')
       ->set('author_name','author_name')
       ->set('author_link','author_link')
-      ->set('author_icon','author_icon')
-      ->set('footer','footer title')
+      ->set('author_icon','https://platform.slack-edge.com/img/default_application_icon.png')
+      ->sendMessage();
+
+### ・Set time
+
+    $slack
+      ->set('pretext','Pretext')
+      ->set('title','Title')
+      ->set('text','Text')
+      ->set('ts','February 18th,2017')
       ->sendMessage();
 
 ### ・Set name
@@ -96,7 +104,6 @@ Examples
       ->set('pretext','Pretext')
       ->set('title','Title')
       ->set('text','Text')
-      ->set('footer','footer title')
       ->sendMessage();
 
 ### ・Set notification
@@ -106,7 +113,6 @@ Examples
       ->set('pretext','Pretext')
       ->set('title','Title')
       ->set('text','Text')
-      ->set('footer','footer title')
       ->sendMessage();
 
 ### ・Set icon
@@ -117,7 +123,7 @@ Examples
       ->set('text','Text')
       ->set('icon_emoji',':dolphin:')
       ->set('footer','footer title')
-      ->set('footer_icon','https://YOUR_ICON_URL')
+      ->set('footer_icon','https://platform.slack-edge.com/img/default_application_icon.png')
       ->sendMessage();
 
 ### ・Set image_url
@@ -126,7 +132,7 @@ Examples
       ->set('pretext','Pretext')
       ->set('title','Title')
       ->set('text','Text')
-      ->set('image_url','https://YOUR_IMAGE_URL')
+      ->set('image_url','https://a.slack-edge.com/bfaba/img/developers/icon_build@2x.png')
       ->set('footer','footer title')
       ->sendMessage();
 
@@ -136,7 +142,7 @@ Examples
       ->set('pretext','Pretext')
       ->set('title','Title')
       ->set('text','Text')
-      ->set('thumb_url','https://YOUR_THUMB_URL')
+      ->set('thumb_url','https://a.slack-edge.com/f3494/img/uk/tools@2x.png')
       ->set('footer','footer title')
       ->sendMessage();
 
@@ -156,12 +162,18 @@ Examples
 
     $slack
       ->set('pretext','Pretext1')
+      ->set('color','#285971')
       ->set('title','Title1')
       ->set('text','Text1')
+      ->setFields('titleA','longtext1',false)
+      ->setFields('titleB','longtext2',false)
       ->set('footer','footer title1')
       ->set('pretext','Pretext2')
+      ->set('color','#9405ee')
       ->set('title','Title2')
       ->set('text','Text2')
+      ->setFields('titleB','shorttext1',true)
+      ->setFields('titleC','shorttext2',true)
       ->set('footer','footer title2')
       ->sendMessage();
 
