@@ -4,7 +4,7 @@
  * SlackSend
  *
  * @author  TakashiKakizoe
- * @version 1.4.0
+ * @version 1.4.1
  *
 **/
 class SlackSend
@@ -120,12 +120,22 @@ class SlackSend
     $this->makeMessage();
     $return = '' ;
     if ($flg) {
-      $return = json_encode($this->message);
+      $return = json_encode($this->message,true);
     } else {
       $return = $this->message;
     }
     $this->reset();
     return $return ;
+  }
+  public function returnResponse($flg=true)
+  {
+    $this->makeMessage();
+    if($flg){
+      $this->message['response_type'] = 'in_cnannel' ;
+    }
+    header('Content-Type: application/json') ;
+    echo( json_encode($this->message,true) ) ;
+    exit();
   }
   private function makeMessage()
   {
@@ -206,7 +216,7 @@ class SlackSend
     if($message===null || !is_array($message)){
       return false ;
     }
-    $this->options['http']['content'] = json_encode($message);
+    $this->options['http']['content'] = json_encode($message,true);
   }
   public function sendMessageMain($message=null)
   {

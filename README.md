@@ -69,11 +69,16 @@ boolean === true  Long text
 `->sendMessage()`  
 Send a message to Slack  
 
-`->getMessage()`  
+`->getMessage($flg)`  
 Get the message in the form of an array, you can use it in outgoing webhooks etc.  
+$flg true encode $flg false not encode  
 
-`->sendMessageMain()`  
-Substitute an array and send a message.  
+`->returnResponse($flg)`
+return response for outgoing webhook or slash commands  
+$flg true response_type in_channel
+
+`->sendMessageMain(JSON)`  
+Substitute an json and send a message.  
 
 
 Examples
